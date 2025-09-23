@@ -4,6 +4,7 @@ import 'dotenv/config'
 import songRouter from './src/routes/songRoute.js'
 import connectDB from './src/config/mongodb.js'
 import connectCloudinary from './src/config/cloudinary.js'
+import albumRouter from './src/routes/albumRoute.js'
 
 // app config
 const app = express()
@@ -16,9 +17,10 @@ app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.use(cors())
 
-// Raw body parser for debugging
+// Raw body parser for debugging (skip for multipart requests)
 app.use((req, res, next) => {
-    if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+    if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') &&
+        !req.headers['content-type']?.includes('multipart/form-data')) {
         let data = '';
         req.on('data', chunk => {
             data += chunk;
@@ -43,6 +45,7 @@ app.use((req, res, next) => {
 
 // initializing routes
 app.use('/api/song', songRouter)
+app.use('/api/album', albumRouter)
 
 app.get('/', (req, res) => res.status(200).send('api working'))
 
