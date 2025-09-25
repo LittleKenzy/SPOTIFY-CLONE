@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 const Sidebar = () => {
     return (
         <div className='bg-[#003a10] min-h-screen pl-[4vw]'>
-            <img src={assets.logo} alt="" className='mt-5 w-[max(10vw, 100px)] hidden sm:block' />
+            <img src={assets.logo} alt="" className='mt-5 w-[10vw] pr-15 text-center hidden sm:block' />
             <img src={assets.logo_small} alt="" className='mt-5 w-[max(5vw, 40px)] mr-5 sm:hidden block'/>
 
             <div className='flex flex-col gap-5 mt-10'>

@@ -1,11 +1,8 @@
-# TODO: Fix Multipart Form Error
+# TODO: Fix AddSong.jsx File Upload Issue
 
-## Completed Steps
-- [x] Update multer.js to add file size limits, allowed file types, and error handling
-- [x] Modify server.js to skip raw body parser for multipart/form-data requests
-- [x] Add error handling in albumController.js for upload errors
-
-## Next Steps
-- [ ] Restart the backend server
-- [ ] Test the album upload functionality
-- [ ] Check for similar issues in song upload routes
+- [x] Fix FormData constructor capitalization in onSubmitHandler
+- [x] Add useEffect to fetch albums from backend and populate album select
+- [x] Improve error handling in onSubmitHandler (log errors, specific toast messages)
+- [x] Optionally improve song file preview UI (skipped, not critical)
+- [x] Fix multer fileFilter to allow audio files
+- [ ] Test the fix by restarting backend and attempting to add a song

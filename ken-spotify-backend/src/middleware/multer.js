@@ -12,10 +12,10 @@ const upload = multer({
         fileSize: 10 * 1024 * 1024, // 10MB limit
     },
     fileFilter: (req, file, callback) => {
-        if (file.mimetype.startsWith('image/')) {
+        if (file.mimetype.startsWith('image/') || file.mimetype.startsWith('audio/')) {
             callback(null, true);
         } else {
-            callback(new Error('Only image files are allowed'), false);
+            callback(new Error('Only image and audio files are allowed'), false);
         }
     }
 })

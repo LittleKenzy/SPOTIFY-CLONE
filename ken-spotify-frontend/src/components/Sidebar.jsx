@@ -22,7 +22,7 @@ const Sidebar = () => {
             <div className='bg-[#121212] h-[85%] rounded'>
                 <div className='p-4 flex items-center justify-between'>
                     <div className='flex items-center gap-3'>
-                        <img src={assets.spotify_logo} alt="" className='w-8' />
+                        <img src={assets.spotify_logo} alt="" className='w-5' />
                         <p className='font-semibold'>Your Library</p>
                     </div>
 
