@@ -46,76 +46,18 @@ export const listSong = async (req, res) => {
 
 export const removeSong = async (req, res) => {
     try {
-        console.log('=== REMOVE SONG DEBUG ===')
-        console.log('Request method:', req.method)
-        console.log('Request headers:', req.headers)
-        console.log('Request body:', req.body)
-        console.log('Raw body:', req.rawBody)
-
-        // Handle case where req.body is undefined
-        let id;
-        if (req.body && typeof req.body === 'object') {
-            id = req.body.id || req.body._id;
-        }
-
-        // Try to extract from raw body if JSON parsing failed
-        if (!id && req.rawBody) {
-            try {
-                // Try JSON first
-                const rawData = JSON.parse(req.rawBody);
-                id = rawData.id || rawData._id;
-            } catch (e) {
-                // If JSON parsing fails, try to extract from form-data
-                console.log('JSON parsing failed, trying form-data extraction');
-                const formDataMatch = req.rawBody.match(/name="id"\r\n\r\n([^]+?)\r\n/);
-                if (formDataMatch) {
-                    id = formDataMatch[1].replace(/\r\n.*$/, ''); // Remove trailing boundary
-                }
-            }
-        }
-
-        // Fallback to params or query
+        const { id } = req.body
         if (!id) {
-            id = req.params.id || req.query.id;
-        }
-
-        console.log('Extracted ID:', id)
-
-        if (!id) {
-            console.log('No ID found in request')
-            return res.json({
-                success: false,
-                message: 'Song ID is required',
-                debug: {
-                    body: req.body,
-                    params: req.params,
-                    query: req.query,
-                    rawBody: req.rawBody
-                }
-            })
-        }
-
-        // Check if song exists first
-        const existingSong = await songModel.findById(id)
-        console.log('Existing song:', existingSong)
-
-        if (!existingSong) {
-            console.log('Song not found in database')
-            return res.json({ success: false, message: 'Song not found' })
+            return res.json({ success: false, message: 'Song ID is required' })
         }
 
         const deletedSong = await songModel.findByIdAndDelete(id)
-        console.log('Deleted song result:', deletedSong)
-
         if (!deletedSong) {
-            console.log('Failed to delete song')
-            return res.json({ success: false, message: 'Failed to delete song' })
+            return res.json({ success: false, message: 'Song not found' })
         }
 
-        console.log('Song removed successfully')
         res.json({ success: true, message: 'Song removed successfully' })
     } catch (error) {
-        console.log('Error in removeSong:', error)
-        res.json({ success: false, message: 'Something went wrong', error: error.message })
+        res.json({ success: false, message: 'Something went wrong' })
     }
 }

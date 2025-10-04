@@ -17,23 +17,6 @@ app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.use(cors())
 
-// Raw body parser for debugging (skip for multipart requests)
-app.use((req, res, next) => {
-    if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') &&
-        !req.headers['content-type']?.includes('multipart/form-data')) {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-        });
-        req.on('end', () => {
-            req.rawBody = data;
-            next();
-        });
-    } else {
-        next();
-    }
-})
-
 // Debug middleware
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.path}`)

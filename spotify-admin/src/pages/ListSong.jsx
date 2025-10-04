@@ -54,7 +54,7 @@ const ListSong = () => {
                             <p>{item.name}</p>
                             <p>{item.album}</p>
                             <p className='px-4'>{item.duration}</p>
-                            <span onClick={() => removeSong(item._id)} className='cursor-pointer text-red-500 hover:text-red-600 px-4'>x</span>
+                            <p onClick={() => removeSong(item._id)} className='cursor-pointer text-red-500 hover:text-red-600 px-4'>x</p>
                         </div>
                     )
                 })}

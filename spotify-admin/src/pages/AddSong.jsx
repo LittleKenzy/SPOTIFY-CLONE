@@ -61,6 +61,25 @@ const AddSong = () => {
         setLoading(false)
     }
 
+    const loadAlbumData = async () => {
+        try {
+            const response = await axios.get(`${url}/api/album/list`)
+
+            if (response.data.success) {
+                setAlbumData(response.data.albums)
+            } else {
+                toast.error('Failed to load albums')
+            }
+        } catch (error) {
+            console.error('Failed to fetch albums:', error)
+            toast.error('Failed to load albums')
+        }
+    }
+
+    useEffect(() => {
+        loadAlbumData()
+    }, [])
+
     return loading ? (
         <div className='grid place-items-center min-h-[80vh]'>
             <div className='w-16 h-16 place-self-center animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'></div>
@@ -86,22 +105,20 @@ const AddSong = () => {
 
             <div className='flex flex-col gap-2.5'>
                 <p>Song Name</p>
-                <input onChange={(e) => setName(e.target.value)} value={name} type="text" className='bg-transparent outline-green-600 border-2 border-gray-400 w-100' placeholder='Type Here' required />
+                <input onChange={(e) => setName(e.target.value)} value={name} type="text" className='bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[50vw]' placeholder='Type Here' required />
             </div>
 
             <div className='flex flex-col gap-2.5'>
                 <p>Song Description</p>
-                <input onChange={(e) => setDesc(e.target.value)} value={desc} type="text" className='bg-transparent outline-green-600 border-2 border-gray-400 w-100' placeholder='Type Here' required />
+                <input onChange={(e) => setDesc(e.target.value)} value={desc} type="text" className='bg-transparent outline-green-600 border-2 border-gray-400 w-100 p-2.5 w-[50vw]' placeholder='Type Here' required />
             </div>
 
             <div className='flex flex-col gap-2.5'>
                 <p>Album</p>
                 <select onChange={(e) => setAlbum(e.target.value)} value={album} className='bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px] cursor-pointer'>
                     <option value="none">None</option>
-                    {albumData.map((alb) => (
-                        <option key={alb._id} value={alb._id}>
-                            {alb.name}
-                        </option>
+                    {albumData.map((item, index) => (
+                        <option key={index} value={item.name}>{item.name}</option>
                     ))}
                 </select>
             </div>
